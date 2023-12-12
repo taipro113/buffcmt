@@ -1,0 +1,52 @@
+from telethon.sync import TelegramClient 
+from telethon.tl.functions.messages import GetDialogsRequest 
+from telethon.tl.types import InputPeerEmpty 
+from time import sleep 
+from telethon.tl.functions.channels import JoinChannelRequest 
+import os,sys 
+import glob 
+import requests
+from telethon.tl.functions.messages import GetMessagesViewsRequest
+ 
+api_id = 1219091 #lấy app id tại https://my.telegram.org 
+api_hash = '736de9a1ae41e52ef2dd5a2cde7eaad9' #lấy api hash tại https://my.telegram.org   
+# lấy tất cả file có đuôi .session 
+all_session = glob.glob('*.session')
+# kiểm tra nếu ko có file sẽ dừng 
+print("Liên hệ telegram: @Cash_204 nếu gặp lỗi")
+if len(all_session) < 1: 
+    print("Chưa Có Session Nào") 
+    sys.exit() 
+print("tìm thấy {} Tài Khoản\n".format(len(all_session)))
+user = input("Nhập user channel muốn buff : ")
+uid = int(input("nhập id: ")) 
+#phone  = "+84365099729"#input("Nhập số điện thoại: ") 
+def sendmsg(client,msg): 
+ client.send_message("@crypto47_community",msg)
+file_vi = open('vi.txt','r',encoding="utf-8")
+for sess in all_session: 
+   client = TelegramClient(sess, api_id, api_hash) 
+   async def main(): 
+      # gửi tin nhắn test 
+      await client.send_message('me', 'Hello nhóc') 
+   with client: 
+      client.loop.run_until_complete(main()) 
+   client.connect() 
+   if not client.is_user_authorized(): 
+      client.send_code_request(sess) 
+      client.sign_in(sess, input('Nhập Mã Code Đăng Nhập: ')) 
+   # có  mã ref
+   #sendmsg(client,"Hello")
+
+   client(JoinChannelRequest("@crypto47_community"))   
+    
+   #client.send_message("@user_group","hello") 
+   line_vi = file_vi.readline()
+   if not line_vi:
+      break
+   bsc = line_vi.strip()
+   client.send_message(entity=user,message=f"{bsc}", reply_to=uid)
+   sleep(5)
+   # sendmsg(client,f"{bsc}") 
+ 
+ 
